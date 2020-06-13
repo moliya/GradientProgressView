@@ -82,7 +82,7 @@ progressView.setProgress(0.8, animated: true)
 ##### CocoaPods
 
 ```ruby
-pod 'GradientProgressView'
+pod 'KFGradientProgressView'
 ```
 
 ##### Swift Package Manager
