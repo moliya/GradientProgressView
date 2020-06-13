@@ -19,7 +19,7 @@
 
 - Swift 5.0
 - Xcode 11
-- iOS 9.0+
+- iOS 8.0+
 
 ### 使用
 
@@ -89,7 +89,7 @@ pod 'KFGradientProgressView'
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/moliya/GradientProgressView", from: "1.0.0")
+    .package(url: "https://github.com/moliya/GradientProgressView", from: "1.1.0")
 ]
 ```
 
