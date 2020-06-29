@@ -131,8 +131,11 @@ open class GradientProgressView: UIView {
         CATransaction.setAnimationDuration(animated ? animationDuration : 0)
         CATransaction.setAnimationTimingFunction(timingFunction)
         CATransaction.setCompletionBlock {
+            //停止CADisplayLink
             self.displayLink?.invalidate()
             self.displayLink = nil
+            //保证最后的百分比正确
+            self.displayLinkAction()
         }
         defer {
             CATransaction.commit()
