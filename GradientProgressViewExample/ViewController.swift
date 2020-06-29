@@ -62,7 +62,7 @@ class ViewController: UIViewController {
             self.progressLabel.text = "\(text)%"
             
             //计算出标签的移动位置
-            let newFrame = self.progressView4.convert(frame, to: self.view)
+            let newFrame = self.progressView4.convert(frame, to: self.self.progressView4.superview)
             let size: CGFloat = 36
             let tagFrame = CGRect(x: (newFrame.origin.x + newFrame.size.width) - size / 2.3, y: newFrame.origin.y - size, width: size, height: size)
             self.tagView.frame = tagFrame
@@ -72,7 +72,13 @@ class ViewController: UIViewController {
         
         //设置标签的初始位置
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
-            self.resetPosition()
+            let frame = self.progressView4.frame
+            let size: CGFloat = 36
+            let tagFrame = CGRect(x: frame.origin.x - size / 2.3, y: frame.origin.y - size, width: size, height: size)
+            self.tagView.frame = tagFrame
+            self.progressLabel.sizeToFit()
+            self.progressLabel.center = CGPoint(x: self.tagView.center.x, y: self.tagView.center.y - 7)
+            self.progressLabel.text = "0%"
         }
     }
     
@@ -81,25 +87,13 @@ class ViewController: UIViewController {
         progressView2.progress = 0
         progressView3.progress = 0
         progressView4.progress = 0
-        
-        resetPosition()
     }
     
     @IBAction func startAction(_ sender: Any) {
         progressView1.setProgress(0.2 + progressView1.progress, animated: true)
         progressView2.setProgress(0.25 + progressView2.progress, animated: true)
         progressView3.setProgress(0.3 + progressView3.progress, animated: true)
-        progressView4.setProgress(0.35 + progressView4.progress, animated: true)
-    }
-    
-    func resetPosition() {
-        let frame = self.progressView4.frame
-        let size: CGFloat = 36
-        let tagFrame = CGRect(x: frame.origin.x - size / 2.3, y: frame.origin.y - size, width: size, height: size)
-        self.tagView.frame = tagFrame
-        self.progressLabel.sizeToFit()
-        self.progressLabel.center = CGPoint(x: self.tagView.center.x, y: self.tagView.center.y - 7)
-        self.progressLabel.text = "0%"
+        progressView4.setProgress(0.25 + progressView4.progress, animated: true)
     }
     
 }

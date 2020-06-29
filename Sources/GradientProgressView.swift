@@ -69,7 +69,6 @@ open class GradientProgressView: UIView {
     
     
     private var privateProgress: Float = 0
-    private var displayLink: CADisplayLink?
     private let maskLayer: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = UIColor.white.cgColor
@@ -121,29 +120,37 @@ open class GradientProgressView: UIView {
         }
         privateProgress = validProgress
         
-        if privateProgress > 0 {
+        //动画时长
+        var duration = animated ? animationDuration : 0
+        if duration < 0 {
+            duration = 0
+        }
+        
+        var displayLink: CADisplayLink?
+        if duration > 0 {
             //开启CADisplayLink
             displayLink = CADisplayLink(target: self, selector: #selector(displayLinkAction))
-            displayLink?.add(to: .main, forMode: .default)
+            //使用common模式，使其在UIScrollView滑动时依然能得到回调
+            displayLink?.add(to: .current, forMode: .common)
         }
         
         CATransaction.begin()
-        CATransaction.setAnimationDuration(animated ? animationDuration : 0)
+        CATransaction.setAnimationDuration(duration)
         CATransaction.setAnimationTimingFunction(timingFunction)
         CATransaction.setCompletionBlock {
             //停止CADisplayLink
-            self.displayLink?.invalidate()
-            self.displayLink = nil
-            //保证最后的百分比正确
-            self.displayLinkAction()
-        }
-        defer {
-            CATransaction.commit()
+            displayLink?.invalidate()
+            if duration == 0 {
+                //更新回调
+                self.progressUpdating?(validProgress, self.maskLayer.frame)
+            }
         }
         
         //更新maskLayer的frame
-        var bounds = gradientLayer.bounds
-        bounds.size.width *= CGFloat(privateProgress)
-        maskLayer.frame = bounds
+        var bounds = self.gradientLayer.bounds
+        bounds.size.width *= CGFloat(validProgress)
+        self.maskLayer.frame = bounds
+        
+        CATransaction.commit()
     }
 }
