@@ -89,7 +89,7 @@ pod 'KFGradientProgressView'
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/moliya/GradientProgressView", from: "1.3.0")
+    .package(url: "https://github.com/moliya/GradientProgressView", from: "1.4.0")
 ]
 ```
 

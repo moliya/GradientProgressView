@@ -131,7 +131,7 @@ open class GradientProgressView: UIView {
             //开启CADisplayLink
             displayLink = CADisplayLink(target: self, selector: #selector(displayLinkAction))
             //使用common模式，使其在UIScrollView滑动时依然能得到回调
-            displayLink?.add(to: .current, forMode: .common)
+            displayLink?.add(to: .main, forMode: .common)
         }
         
         CATransaction.begin()
@@ -143,6 +143,12 @@ open class GradientProgressView: UIView {
             if duration == 0 {
                 //更新回调
                 self.progressUpdating?(validProgress, self.maskLayer.frame)
+            } else {
+                if let _ = self.maskLayer.presentation() {
+                    self.displayLinkAction()
+                } else {
+                    self.progressUpdating?(validProgress, self.maskLayer.frame)
+                }
             }
         }
         
