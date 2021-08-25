@@ -8,9 +8,11 @@
 
 import UIKit
 
+@objc(KFGradientProgressView)
 open class GradientProgressView: UIView {
     
     //进度条完成部分的渐变颜色，设置单个为纯色，设置多个为渐变色
+    @objc
     public var progressColors: [UIColor] = [.systemBlue] {
         didSet {
             if progressColors.count == 0 {
@@ -25,6 +27,7 @@ open class GradientProgressView: UIView {
     }
     
     //进度条完成部分的圆角半径
+    @objc
     public var progressCornerRadius: CGFloat = 0 {
         didSet {
             maskLayer.cornerRadius = progressCornerRadius
@@ -32,6 +35,7 @@ open class GradientProgressView: UIView {
     }
     
     //进度完成部分的内间距
+    @objc
     public var progressEdgeInsets: UIEdgeInsets = .zero {
         didSet {
             setNeedsLayout()
@@ -39,6 +43,7 @@ open class GradientProgressView: UIView {
     }
     
     //当前进度
+    @objc
     public var progress: Float {
         get {
             return privateProgress
@@ -59,12 +64,15 @@ open class GradientProgressView: UIView {
     }()
     
     //动画持续时间
+    @objc
     public var animationDuration: TimeInterval = 0.3
     
     //动画时间函数
+    @objc
     public var timingFunction: CAMediaTimingFunction = CAMediaTimingFunction(name: .default)
     
     //进度更新动画过程中的回调，在这里可以拿到当前进度及进度条的frame
+    @objc
     public var progressUpdating: ((Float, CGRect) -> ())?
     
     
@@ -113,6 +121,7 @@ open class GradientProgressView: UIView {
     }
     
     // MARK: - Public
+    @objc(setProgress:animated:)
     public func setProgress(_ progress: Float, animated: Bool) {
         let validProgress = min(1.0, max(0.0, progress))
         if privateProgress == validProgress {
